@@ -1,0 +1,75 @@
+body {
+  background: linear-gradient(to right, rgb(255, 0, 136), blue);
+}
+
+.todo-app {
+  width: 98%;
+  height: 500px;
+  background-color: #fafafa;
+  border-radius: 15px;
+  margin-top: 40px;
+  margin-left: 1%;
+  padding-top: 30px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  /* margin-top: 40px; */
+}
+
+.todo-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  /* align-items: center; */
+}
+.todo-input {
+  border: 1px solid #dfe1e5;
+  outline: none;
+  width: 60%;
+  height: 50px;
+  border-radius: 20px 0 0 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+}
+.todo-button {
+  margin-top: 20px;
+  width: 100px;
+  height: 52x;
+  border-radius: 0 20px 20px 0;
+  text-align: center;
+  background: linear-gradient(to right, rgb(255, 0, 136), blue);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 52px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.item {
+  display: flex;
+  box-sizing: border-box;
+  width: 80%;
+  height: 50px;
+  margin: 8px auto;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 30px 1px rgba(155, 155, 155, 0.247);
+  align-items: center;
+  /* 垂直居中 */
+  justify-content: space-between;
+  margin-top: 15px;
+  /* 内部平分空间 */
+}
+.item:hover {
+  box-shadow: 5px 8px 10px 5px rgba(155, 155, 155, 0.293);
+}
+.del {
+  color: red;
+}
+.completed {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
