@@ -6,12 +6,16 @@
   margin: 0;
   padding: 0;
 }
-
+body {
+  height: 100vh;
+  background: linear-gradient(to top, #ee9ca7, white);
+}
 h1 {
   padding: 20px 50px;
   /* margin: 50px; */
   font-size: 3em;
   font-family: 'Roboto';
+  color: #ff8cb8;
 }
 p {
   padding: 30px;
@@ -21,10 +25,18 @@ p {
   font-family: 'Radio Canada Big';
 }
 
+.line {
+  width: 100vw;
+  height: 4px;
+  background-color: #ff8f8f;
+}
+
 .demos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background-color: rgba(172, 172, 172, 0.362);
+  /* Study Grid */
+  background-color: rgba(255, 255, 255, 0.314);
+  border: 10px inset #fffd8e43;
   width: 70vw;
   height: 50vh;
   position: absolute;
@@ -38,18 +50,17 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: hsla(0, 0%, 0%, 0.38);
+  background-color: hsla(0, 0%, 76%, 0.186);
   width: 200px;
   height: 80px;
   padding: 10px;
-  text-align: center;
   border-radius: 15px;
-  box-shadow: 1px 1px 3px 1px black;
+  box-shadow: 2px 2px 5px 1px rgba(94, 94, 94, 0.368);
 }
 
-.card a {
+.demos .card a {
   text-decoration: none;
-  color: white;
+  color: #4d7184;
   font-family: 'Radio Canada Big';
   font-size: 1.5em;
 }
