@@ -1,13 +1,22 @@
 const box = document.querySelector('.search-box');
 const btn = document.querySelector('.btn');
+const input = document.querySelector('.input');
 
 btn.addEventListener('click', () => {
   box.classList.toggle('active');
+  if (!box.classList.contains('active')) {
+    setTimeout(() => {
+      input.value = '';
+    }, 500);
+  }
 });
 
 document.addEventListener('click', event => {
-  if (!box.contains(event.target) && event.target !== btn) {
+  if (!box.contains(event.target)) {
     box.classList.remove('active');
+    setTimeout(() => {
+      input.value = '';
+    }, 500);
   }
 });
 

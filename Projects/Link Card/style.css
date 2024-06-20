@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(https://jsd.onmicrosoft.cn/gh/FallingSakura/Source@main/img/202406161434466.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.card {
+  width: 800px;
+  height: 300px;
+  /* background-color: white; */
+}
