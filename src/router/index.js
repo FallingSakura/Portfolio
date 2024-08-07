@@ -1,12 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import App from '../App.vue'
+import HomeView from '../views/HomeView.vue'
+import Routes from '../../public/routes.js'
 
 const routes = [
-  { path: '/', component: App },
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
 ]
-
+Routes.forEach(route => {
+  routes.push(route);
+});
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 
