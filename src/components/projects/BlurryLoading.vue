@@ -36,7 +36,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 .bg {
-  background: url(../../assets/286264.jpg) no-repeat center/cover;
+  background: url(@/assets/img/blur.jpg) no-repeat center/cover;
   width: 100%;
   height: 100vh;
   position: absolute;

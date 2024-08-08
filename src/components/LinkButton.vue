@@ -2,7 +2,7 @@
 const props = defineProps({
   src: {
     type: String,
-    default: '#',
+    default: '/',
   },
   title: {
     type: String,
@@ -48,6 +48,12 @@ const props = defineProps({
 @media (max-width: 1200px) {
   .link-button {
     font-size: 0.8rem;
+  }
+}
+@media (max-width: 600px) {
+  .link-button {
+    font-size: 0.6rem;
+    padding: 12px 15px;
   }
 }
 </style>
