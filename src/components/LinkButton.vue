@@ -45,4 +45,9 @@ const props = defineProps({
   background-color: #f7f7f7;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+@media (max-width: 1200px) {
+  .link-button {
+    font-size: 0.8rem;
+  }
+}
 </style>

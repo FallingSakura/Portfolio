@@ -1,6 +1,6 @@
 <script setup>
 import LinkButton from '../components/LinkButton.vue'
-import cardList from '../../public/cardList.js'
+import cardList from '../data/cardList.js'
 const cards = [...cardList];
 [{},{},{},{},{},{},{},{},{},{},{}].forEach((item, index) => {
   cards.push({
@@ -61,5 +61,10 @@ const cards = [...cardList];
   justify-content: center;
   align-items: center;
   height: 10vh;
+}
+@media (max-width: 1200px) {
+  .content-container {
+    width: 100%;
+  }
 }
 </style>

@@ -2,32 +2,32 @@
 import OtherPageView from '@/views/OtherPageView.vue';
 </script>
 <template>
-  <OtherPageView bg-color="#131417">
+  <OtherPageView bg="linear-gradient(315deg, #131417 0, #1e1f26 74%);">
     <template #project>
       <div class="container">
         <div class="box">
           <span></span>
-      <div class="content">
-        <h2>Card #1</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
-        <a href="#">Read More</a>
-      </div>
-    </div>
-    <div class="box">
-      <span></span>
-      <div class="content">
-        <h2>Card #2</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
-        <a href="#">Read More</a>
-      </div>
-    </div>
-    <div class="box">
-      <span></span>
-      <div class="content">
-        <h2>Card #3</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
-        <a href="#">Read More</a>
+          <div class="content">
+            <h2>Card #1</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
+            <a href="#">Read More</a>
+          </div>
         </div>
+        <div class="box">
+          <span></span>
+          <div class="content">
+            <h2>Card #2</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
+            <a href="#">Read More</a>
+          </div>
+        </div>
+        <div class="box">
+          <span></span>
+          <div class="content">
+            <h2>Card #3</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad molestias dolorum animi quaerat necessitatibus laudantium repellat aut ullam fuga officiis, corrupti a rem autem culpa aperiam quas odit blanditiis consectetur?</p>
+            <a href="#">Read More</a>
+            </div>
         </div>
       </div>
     </template>
@@ -69,8 +69,10 @@ import OtherPageView from '@/views/OtherPageView.vue';
   font-size: 2em;
   color: #fff;
   margin-bottom: 10px;
+  font-family: consolas;
 }
 .content p {
+  font-family: consolas;
   font-size: 1.1em;
   margin-bottom: 10px;
   line-height: 1.4em;

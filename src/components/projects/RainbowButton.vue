@@ -2,7 +2,7 @@
 import OtherPageView from '../../views/OtherPageView.vue';
 </script>
 <template>
-  <OtherPageView bgColor="#333">
+  <OtherPageView bg="#333">
     <template #project>
       <div class="body">
         <a href="#" class="button1">Hover me</a>
