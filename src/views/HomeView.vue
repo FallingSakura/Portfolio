@@ -70,7 +70,7 @@ const cards = [...cardList];
   padding-top: 5vh;
 }
 .content-container {
-  width: 50%;
+  width: 70%;
   height: 100%;
   display: flex;
   justify-content: center;
