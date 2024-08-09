@@ -108,7 +108,7 @@ const match = (str) => {
 };
 </script>
 <template>
-  <OtherPageView bg="url(../src/assets/img/formbg.png) no-repeat center/cover;">
+  <OtherPageView bg="url(../src/assets/img/formbg.png) no-repeat center/cover">
     <template #project>
       <div class="container">
       <table>

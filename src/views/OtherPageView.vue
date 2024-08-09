@@ -3,14 +3,18 @@ import LinkButton from '../components/LinkButton.vue';
 const props = defineProps({
   bg: {
     type: String,
-    default: "#fafafa;"
+    default: "#fafafa"
+  },
+  other: {
+    type: Object,
+    default: () => ({})
   }
 })
 
 </script>
 
 <template>
-  <div class="o-container" :style="`background: ${props.bg}`">
+  <div class="o-container" :style="{ background: props.bg, ...props.other }">
     <div class="o-content">
       <slot name="project"></slot>
     </div>
@@ -25,6 +29,7 @@ const props = defineProps({
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  z-index: -1;
 }
 
 .o-content {
@@ -38,13 +43,16 @@ const props = defineProps({
 
 .o-footer .home-btn {
   z-index: 1;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
 }
 
-.o-footer {
+/* .o-footer {
   display: flex;
   height: 100px;
   justify-content: flex-start;
   align-items: center;
   padding: 0 20px;
-}
+} */
 </style>

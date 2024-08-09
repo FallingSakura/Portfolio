@@ -36,14 +36,23 @@ const props = defineProps({
   border-radius: 10px;
   text-align: center;
   text-decoration: none;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition: all 0.4s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  user-select: none;
 }
 
 .link-button:hover {
   background-color: #f7f7f7;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+.link-button:active {
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  transform: translateY(2px) scale(0.95);
 }
 @media (max-width: 1200px) {
   .link-button {

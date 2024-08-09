@@ -4,9 +4,7 @@ import OtherPageView from '../../views/OtherPageView.vue';
 <template>
   <OtherPageView bg="#333">
     <template #project>
-      <div class="body">
-        <a href="#" class="button1">Hover me</a>
-      </div>
+      <a href="#" class="button1">Hover me</a>
     </template>
   </OtherPageView>
 </template>
@@ -34,21 +32,24 @@ import OtherPageView from '../../views/OtherPageView.vue';
   z-index: 1;
   /* 层叠优先级，数字越大优先级越高 */
   background: linear-gradient(90deg,#68cfff,#ff7fc7,#ffef61,#68cfff);
-  background-size: 400%;
+  background-size: 500%;
+  opacity: 1;
+  transition: all 0.3s ease;
 }
 .button1::before {
   content: "";
   position: absolute;
   inset: -5px;
   background: linear-gradient(90deg,#03a9f4,#f441a5,#ffeb3bf3,#03a9f4);
-  background-size: 400%;
+  background-size: 500%;
   border-radius: 50px;
   z-index: -1;
   filter: blur(20px);
-  opacity: 0.9;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 .button1:hover::before {
-  animation: sun 8s infinite;
+  animation: sun 8s linear infinite;
   opacity: 1;
   filter: blur(20px);
 }
@@ -65,7 +66,7 @@ import OtherPageView from '../../views/OtherPageView.vue';
     background-position: 0%;
   }
   to {
-    background-position: 400%;
+    background-position: 500%;
   }
 }
 </style>

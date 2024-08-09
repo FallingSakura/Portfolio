@@ -2,7 +2,7 @@
 import OtherPageView from '@/views/OtherPageView.vue';
 </script>
 <template>
-  <OtherPageView bg="linear-gradient(315deg, #131417 0, #1e1f26 74%);">
+  <OtherPageView bg="linear-gradient(315deg, #131417 0, #1e1f26 74%)">
     <template #project>
       <div class="container">
         <div class="box">

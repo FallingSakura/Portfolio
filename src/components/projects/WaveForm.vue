@@ -7,7 +7,7 @@ const password = ref('Password');
 </script>
 
 <template>
-  <OtherPageView bg="linear-gradient(135deg, steelblue, lightblue);">
+  <OtherPageView bg="linear-gradient(135deg, steelblue, lightblue)">
     <template #project>
       <div class="container">
         <h1>Please Login</h1>
