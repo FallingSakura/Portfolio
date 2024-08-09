@@ -18,15 +18,14 @@ const props = defineProps({
     <div class="o-content">
       <slot name="project"></slot>
     </div>
-    <div class="o-footer">
-      <link-button src="/" title="Back to Home" class="home-btn">Home</link-button>
-    </div>
+    <link-button src="/" title="Back to Home" class="home-btn">Home</link-button>
   </div>
 </template>
 
 <style scoped>
 .o-container {
   min-height: 100vh;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   z-index: -1;
@@ -41,11 +40,11 @@ const props = defineProps({
   flex: 1;
 }
 
-.o-footer .home-btn {
+.home-btn {
   z-index: 1;
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
+  position: relative;
+  bottom: 12px;
+  left: 12px;
 }
 
 /* .o-footer {
