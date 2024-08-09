@@ -16,7 +16,7 @@ function fn(index) {
   <OtherPageView>
     <template #project>
       <div class="container">
-        <div @click="fn(index)" v-for="(card, index) in cards" :key="index" :class="{panel: true, active: card.active}" :id="`p${index + 1}`"><h3>Pic 1</h3></div>
+        <div @click="fn(index)" v-for="(card, index) in cards" :key="index" :class="{panel: true, active: card.active}" :id="`p${index + 1}`"><h3>{{ `Pic ${index + 1}` }}</h3></div>
       </div>
     </template>
   </OtherPageView>
@@ -26,6 +26,7 @@ function fn(index) {
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 .container {
+  font-family: 'Muli', sans-serif;
   display: flex;
   width: 90vw;
   overflow: scroll;
