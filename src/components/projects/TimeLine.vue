@@ -1,11 +1,11 @@
 <script setup>
 import OtherPageView from '@/views/OtherPageView.vue';
 import { ref, onMounted } from 'vue';
-
-const items = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-const itemStyles = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-const bgStyles = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-const frameStyles = ref([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
+const list = Array.from({ length: 10 }, () => ({}));
+const items = ref(list.map(item => ({...item})));
+const itemStyles = ref(list.map(item => ({...item})));
+const bgStyles = ref(list.map(item => ({...item})));
+const frameStyles = ref(list.map(item => ({...item})));
 const shellSliderStyle = ref({ transform: ''});
 let bg = ref('');
 let width, height, totalWidth, margin = 20,
@@ -62,7 +62,6 @@ function move(index) {
   // 设置body背景图片
   bg.value = bgStyles.value[index - 1].backgroundImage;
 }
-console.log(frameStyles.value);
 function timer() {
   // 定时器，自动切换shell
   clearInterval(interval);

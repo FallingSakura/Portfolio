@@ -26,7 +26,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <OtherPageView bg="linear-gradient(90deg, #7d5fff, #7158e2);">
+  <OtherPageView bg="linear-gradient(90deg, #7d5fff, #7158e2)">
     <template #project>
       <div :class="{ 'search-box': true, active: isActive }">
         <input v-model="content" type="text" class="input" placeholder="Search...">

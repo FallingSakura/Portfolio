@@ -42,7 +42,7 @@ const props = defineProps({
 
 .home-btn {
   z-index: 1;
-  position: relative;
+  position: fixed;
   bottom: 12px;
   left: 12px;
 }

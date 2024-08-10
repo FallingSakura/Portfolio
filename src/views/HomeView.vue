@@ -2,7 +2,9 @@
 import LinkButton from '../components/LinkButton.vue'
 import cardList from '../data/cardList.js'
 const cards = [...cardList];
-[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}].forEach((item, index) => {
+const demoCards = Array(20).fill({});
+
+demoCards.forEach((item, index) => {
   cards.push({
     ...item,
     title: `Card ${index + 1}`

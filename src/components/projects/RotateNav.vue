@@ -60,12 +60,13 @@ h1, h2, h3, h4, h5, h6, p {
   min-height: 100vh;
   padding: 50px;
   font-family: 'Lato', sans-serif;
+  /* position: fixed; */
 }
 .container.show-nav {
   transform: rotate(-20deg);
 }
 .circle-container {
-  position: fixed;
+  position: absolute;
   top: -100px;
   left: -100px;
 }

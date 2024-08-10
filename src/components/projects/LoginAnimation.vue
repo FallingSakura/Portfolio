@@ -2,7 +2,7 @@
 import OtherPageView from '@/views/OtherPageView.vue';
 </script>
 <template>
-  <OtherPageView bg="#111;">
+  <OtherPageView bg="#111" :other="{ overflow: 'hidden' }">
     <template #project>
       <div class="ring">
         <i style="--clr:#12c2e9;"></i>
@@ -32,8 +32,8 @@ import OtherPageView from '@/views/OtherPageView.vue';
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap");
 .ring {
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
