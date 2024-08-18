@@ -4,6 +4,15 @@ import cardList from '../data/cardList.js'
 const cards = [...cardList];
 const demoCards = Array(20).fill({});
 
+cards[0].img = 'https://dummyimage.com/600x400/222/fff';
+for (let i = 0; i < cards.length; i++) {
+  if (cards[i].img) {
+    cards.push(cards[i]);
+    cards.splice(i, 1);
+  }
+}
+cards.reverse();
+
 demoCards.forEach((item, index) => {
   cards.push({
     ...item,
@@ -21,7 +30,7 @@ demoCards.forEach((item, index) => {
       <div class="content-container">
         <div class="flex-container">
           <LinkButton v-for="(card, index) in cards" :src="card.src" :key="index"  
-            :title="card.title" :description="card.description">
+            :title="card.title" :description="card.description" :img="card.img">
           </LinkButton>
         </div>
       </div>
@@ -38,7 +47,7 @@ demoCards.forEach((item, index) => {
   min-height: 100vh;
   width: 100%;
   /* background-color: #fffaee; */
-  background: linear-gradient(135deg, #fef, #efe);
+  background: linear-gradient(45deg, #654ea3, #eaafc8);
 }
 .header {
   position: relative;
@@ -48,20 +57,23 @@ demoCards.forEach((item, index) => {
   height: 10vh;
 }
 .header h1 {
-  font-size: 3rem;
+  position: relative;
+  font-size: 3.5rem;
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
-  color: #333;
-  letter-spacing: 8px;
+  color: #ffffff;
+  letter-spacing: 6px;
 }
 .header h1::after {
   content: '';
   display: block;
+  position: absolute;
+  bottom: -10px;
   width: 100%;
   margin: auto;
   height: 0px;
-  box-shadow: 0px 0px 10px 1px #333;
+  box-shadow: 0px 0px 10px 3px #f7f7f7;
 }
 .content {
   display: flex;
@@ -90,7 +102,9 @@ demoCards.forEach((item, index) => {
   flex-wrap: wrap;
   width: 100%;
   gap: 20px;
-  padding: 30px 50px;
+  padding: 30px 0;
+  align-items: flex-end;
+  justify-content: center;
 }
 .footer {
   position: relative;
