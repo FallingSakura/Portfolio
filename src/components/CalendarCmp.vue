@@ -116,7 +116,7 @@ watch(react, () => {
 <style scoped>
 @import url('https://fonts.font.im/css?family=PT+Sans');
 .calendar {
-  width: 1000px;
+  width: 800px;
   border: 1px solid #ddd;
   border-radius: 15px;
   overflow: hidden;
@@ -197,5 +197,22 @@ watch(react, () => {
 .last-month {
   /* color: white; */
   opacity: 0;
+}
+@media (max-width: 1100px) {
+  .calendar {
+    width: 600px;
+  }
+  .days div {
+    font-size: 1rem;
+  }
+  .calendar-header .year {
+    font-size: 0.8rem;
+  }
+  .calendar-header .month {
+    font-size: 2rem;
+  }
+  .calendar-body .days {
+    gap: 8px;
+  }
 }
 </style>
