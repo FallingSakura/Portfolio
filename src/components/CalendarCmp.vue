@@ -68,7 +68,7 @@ function nextMonth() {
 }
 watch(react, () => {
   const body = document.querySelector('.days');
-  const title = document.querySelector('.calendar-header h1');
+  const title = document.querySelector('.calendar-header .date');
   body.style.transition = 'filter 0.3s ease';
   title.style.transition = 'opacity 0.3s linear';
   body.style.filter = 'blur(30px)';
