@@ -1,12 +1,13 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 
+const ip = 'localhost';
 const date = ref(new Date());
 const react = ref(0);
 let dataStore = ref(new Map());
 
 onMounted(() => {
-  fetch('http://localhost:3000/get-data').then(response => response.json()) // json
+  fetch(`http://${ip}:3000/get-data`).then(response => response.json()) // json
   .then(data => {
     dataStore.value = new Map(Object.entries(data));
   }).then(() => {
@@ -93,18 +94,20 @@ function addIndex(index) {
   if (dataStore.value.has(timeIndex)) {
     if (dataStore.value.get(timeIndex) === 3) return;
     dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) + 1);
+    if (dataStore.value.get(timeIndex) === 0) dataStore.value.delete(timeIndex);
   }
   else dataStore.value.set(timeIndex, 1);
-  updateData();
+  updateData(timeIndex, dataStore.value.get(timeIndex));
 }
 function minusIndex(index) {
   const timeIndex = getDateKey(index);
   if (dataStore.value.has(timeIndex)) {
     if (dataStore.value.get(timeIndex) === -3) return;
     dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) - 1);
+    if (dataStore.value.get(timeIndex) === 0) dataStore.value.delete(timeIndex);
   }
   else dataStore.value.set(timeIndex, -1);
-  updateData();
+  updateData(timeIndex, dataStore.value.get(timeIndex));
 }
 function getBackGroundColor(index) {
   const timeIndex = getDateKey(index);
@@ -128,16 +131,15 @@ function getFontColor(index) {
   if (dataStore.value.get(timeIndex) < 0) color.value = '#fff';
   return color.value;
 }
-function updateData() {
-  // console.log(JSON.stringify(Object.fromEntries(dataStore)));
-  fetch('http://localhost:3000/update-data', {
+function updateData(key, value) {
+  fetch(`http://${ip}:3000/update-data`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(Object.fromEntries(dataStore.value)),
+    body: JSON.stringify(Object.fromEntries([[`${key}`, value]])),
   })
-  .then(res => res.text()).then(data => console.log('Success:', data))
+  .then(res => res.text()).then(data => data)
   .catch(error => console.log('Error:', error));
 }
 </script>
@@ -263,9 +265,11 @@ function updateData() {
   top: 3px;
   right: 6px;
   font-size: 0.9rem;
+  opacity: 0.6;
 }
 .current-day {
   background-color: #007bff !important;
+  box-shadow: 0 0 8px 1px rgb(187, 187, 187);
   /* border-radius: 999px !important; */
   color: #fff;
 }
@@ -304,7 +308,7 @@ function updateData() {
 }
 @media (max-width: 600px) {
   .calendar {
-    width: 90vw;
+    width: 95vw;
   }
   .calendar-body {
     padding: 15px;
@@ -316,7 +320,11 @@ function updateData() {
     margin-top: 15px;
   }
   .days div {
+    border-radius: 10px;
     font-size: 1.2rem;
+  }
+  .days small {
+    display: none;
   }
   .day-names div {
     font-size: 1rem;

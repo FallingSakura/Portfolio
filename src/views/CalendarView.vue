@@ -5,6 +5,7 @@ import Calendar from '../components/CalendarCmp.vue'
 <template>
   <div class="body">
     <Calendar />
+    
   </div>
 </template>
 <style scoped>
