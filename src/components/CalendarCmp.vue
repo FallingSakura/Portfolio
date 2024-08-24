@@ -94,7 +94,11 @@ function addIndex(index) {
   if (dataStore.value.has(timeIndex)) {
     if (dataStore.value.get(timeIndex) === 3) return;
     dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) + 1);
-    if (dataStore.value.get(timeIndex) === 0) dataStore.value.delete(timeIndex);
+    if (dataStore.value.get(timeIndex) === 0) {
+      dataStore.value.delete(timeIndex);
+      updateData(timeIndex, null);
+      return
+    }
   }
   else dataStore.value.set(timeIndex, 1);
   updateData(timeIndex, dataStore.value.get(timeIndex));
@@ -104,7 +108,11 @@ function minusIndex(index) {
   if (dataStore.value.has(timeIndex)) {
     if (dataStore.value.get(timeIndex) === -3) return;
     dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) - 1);
-    if (dataStore.value.get(timeIndex) === 0) dataStore.value.delete(timeIndex);
+    if (dataStore.value.get(timeIndex) === 0) {
+      dataStore.value.delete(timeIndex);
+      updateData(timeIndex, null);
+      return
+    }
   }
   else dataStore.value.set(timeIndex, -1);
   updateData(timeIndex, dataStore.value.get(timeIndex));
@@ -199,13 +207,13 @@ function updateData(key, value) {
 
 .calendar-header .year {
   font-size: 1.2rem;
-  margin-left: 10px;
+  margin-left: 15px;
   letter-spacing: 2px;
 }
 .calendar-header .month {
   font-size: 2.4rem;
   letter-spacing: 2px;
-  margin-left: 15px;
+  margin-left: 25px;
 }
 .calendar .date {
   flex: 1;
@@ -259,6 +267,7 @@ function updateData(key, value) {
   font-weight: 700;
   user-select: none;
   position: relative;
+  transition: background-color 0.3s ease;
 }
 .days small {
   position: absolute;
