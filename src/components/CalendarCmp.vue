@@ -1,10 +1,19 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 
 const date = ref(new Date());
 const react = ref(0);
-const dataStore = new Map();
+let dataStore = ref(new Map());
 
+onMounted(() => {
+  fetch('http://localhost:3000/get-data').then(response => response.json()) // json
+  .then(data => {
+    dataStore.value = new Map(Object.entries(data));
+  }).then(() => {
+    
+  })
+  .catch(error => console.log('Error fetching data:', error));
+})
 // Fri Aug 23 2024 13:55:58 GMT+0800 (China Standard Time)
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -22,12 +31,10 @@ class Day {
     this.date = date;
     this.isCurrentDay = isCurrentDay;
     this.isLastMonth = isLastMonth;
-    this.level = ref(0);
   }
 }
 
-const daysInMonth = computed({
-  get() {
+const daysInMonth = computed(() => {
     const days = [];
     const firstDay = new Date(year.value, month.value, 1).getDay();
     const lastDate = new Date(year.value, month.value + 1, 0).getDate();
@@ -40,10 +47,9 @@ const daysInMonth = computed({
       const currentDate = new Date(year.value, month.value, i);
       days.push(new Day(currentDate, isToday(currentDate)));
     }
-
     return days;
-  }
 });
+
 
 function isToday(date) {
   const today = new Date();
@@ -52,6 +58,10 @@ function isToday(date) {
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate()
   );
+}
+function getDateKey(dateEl) {
+  const day = (dateEl instanceof Date) ? dateEl : daysInMonth.value[dateEl].date;
+  return `${day.getFullYear()}${String(day.getMonth() + 1).padStart(2, '0')}${String(day.getDate()).padStart(2, '0')}`
 }
 
 function prevMonth() {
@@ -79,18 +89,28 @@ watch(react, () => {
   }, 400);
 });
 function addIndex(index) {
-  if (daysInMonth.value[index].level.value === 3) return;
-  daysInMonth.value[index].level.value++;
+  const timeIndex = getDateKey(index);
+  if (dataStore.value.has(timeIndex)) {
+    if (dataStore.value.get(timeIndex) === 3) return;
+    dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) + 1);
+  }
+  else dataStore.value.set(timeIndex, 1);
   updateData();
 }
 function minusIndex(index) {
-  if (daysInMonth.value[index].level.value === -3) return;
-  daysInMonth.value[index].level.value--;
+  const timeIndex = getDateKey(index);
+  if (dataStore.value.has(timeIndex)) {
+    if (dataStore.value.get(timeIndex) === -3) return;
+    dataStore.value.set(timeIndex, dataStore.value.get(timeIndex) - 1);
+  }
+  else dataStore.value.set(timeIndex, -1);
   updateData();
 }
-function getBackGroundColor(level) {
+function getBackGroundColor(index) {
+  const timeIndex = getDateKey(index);
+  if(!dataStore.value.has(timeIndex)) return;
   const color = ref('');
-  switch (level.value) {
+  switch (dataStore.value.get(timeIndex)) {
     case 1: color.value = '#40E0D0 !important'; break;
     case 2: color.value = '#FF8C00 !important'; break;
     case 3: color.value = '#FF0080 !important'; break;
@@ -101,18 +121,21 @@ function getBackGroundColor(level) {
   }
   return color.value;
 }
-function getFontColor(level) {
+function getFontColor(index) {
+  const timeIndex = getDateKey(index);
+  if (!dataStore.value.has(timeIndex)) return;
   const color = ref('');
-  if (level.value < 0) color.value = '#fff';
+  if (dataStore.value.get(timeIndex) < 0) color.value = '#fff';
   return color.value;
 }
 function updateData() {
-  fetch('http:localhost:3000/update-data', {
+  // console.log(JSON.stringify(Object.fromEntries(dataStore)));
+  fetch('http://localhost:3000/update-data', {
     method: 'POST',
     headers: {
-      'Context-Type': 'application/json'
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(dataStore)
+    body: JSON.stringify(Object.fromEntries(dataStore.value)),
   })
   .then(res => res.text()).then(data => console.log('Success:', data))
   .catch(error => console.log('Error:', error));
@@ -144,10 +167,10 @@ function updateData() {
           :class="{'current-day': day.isCurrentDay, 'last-month': day.isLastMonth}"
           @click="addIndex(index)"
           @contextmenu.prevent="minusIndex(index)"
-          :style="{ backgroundColor: getBackGroundColor(day.level), color: getFontColor(day.level) }"
+          :style="{ backgroundColor: getBackGroundColor(index), color: getFontColor(index) }"
         >
           {{ day.date.getDate() }}
-          <small>{{ day.level }}</small>
+          <small>{{ dataStore.get(getDateKey(index)) }}</small>
         </div>
       </div>
     </div>
