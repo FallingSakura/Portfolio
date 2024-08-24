@@ -3,6 +3,8 @@ import { ref, computed, watch } from 'vue';
 
 const date = ref(new Date());
 const react = ref(0);
+const dataStore = new Map();
+
 // Fri Aug 23 2024 13:55:58 GMT+0800 (China Standard Time)
 
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -10,7 +12,7 @@ const monthNames = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
-
+// console.log(date.value.getTime());
 const year = computed(() => date.value.getFullYear());
 // 2024
 const month = computed(() => date.value.getMonth());
@@ -52,11 +54,6 @@ function isToday(date) {
   );
 }
 
-// function selectDay(day) {
-//   selectedDate.value = day;
-//   alert(`Selected date: ${day.toDateString()}`);
-// }
-
 function prevMonth() {
   date.value.setMonth(date.value.getMonth() - 1);
   // date.value = new Date(date.value); // 触发 reactivity
@@ -84,10 +81,12 @@ watch(react, () => {
 function addIndex(index) {
   if (daysInMonth.value[index].level.value === 3) return;
   daysInMonth.value[index].level.value++;
+  updateData();
 }
 function minusIndex(index) {
   if (daysInMonth.value[index].level.value === -3) return;
   daysInMonth.value[index].level.value--;
+  updateData();
 }
 function getBackGroundColor(level) {
   const color = ref('');
@@ -106,6 +105,17 @@ function getFontColor(level) {
   const color = ref('');
   if (level.value < 0) color.value = '#fff';
   return color.value;
+}
+function updateData() {
+  fetch('http:localhost:3000/update-data', {
+    method: 'POST',
+    headers: {
+      'Context-Type': 'application/json'
+    },
+    body: JSON.stringify(dataStore)
+  })
+  .then(res => res.text()).then(data => console.log('Success:', data))
+  .catch(error => console.log('Error:', error));
 }
 </script>
 
