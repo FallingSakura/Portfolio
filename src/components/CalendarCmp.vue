@@ -203,16 +203,56 @@ watch(react, () => {
     width: 600px;
   }
   .days div {
-    font-size: 1rem;
+    font-size: 1.4rem;
+  }
+  .day-names div {
+    font-size: 1.2rem;
   }
   .calendar-header .year {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   .calendar-header .month {
     font-size: 2rem;
   }
   .calendar-body .days {
-    gap: 8px;
+    gap: 10px;
+  }
+  .calendar-header .button {
+    font-size: 1.4rem;
+  }
+}
+@media (max-width: 600px) {
+  .calendar {
+    width: 90vw;
+  }
+  .calendar-body {
+    padding: 15px;
+  }
+  .days, .day-names {
+    gap: 5px !important;
+  }
+  .days {
+    margin-top: 15px;
+  }
+  .days div {
+    font-size: 1.2rem;
+  }
+  .day-names div {
+    font-size: 1rem;
+  }
+  .calendar-header .month {
+    font-size: 1.6rem;
+  }
+  .calendar-header .year {
+    font-size: 0.8rem;
+  }
+  .calendar-body .days {
+    gap: 10px;
+  }
+  .calendar-header .button {
+    width: 30px;
+    height: 30px;
+    font-size: 1.4rem;
   }
 }
 </style>
