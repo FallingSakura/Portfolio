@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Routes from '../data/routes.js'
-import CalendarView from '../views/CalendarView.vue'
 
 const routes = [
   {
@@ -9,11 +8,11 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-  {
-    path: '/calendar',
-    name: 'calendar',
-    component: CalendarView
-  }
+  // {
+  //   path: '/calendar',
+  //   name: 'calendar',
+  //   component: CalendarView
+  // }
 ]
 Routes.forEach(route => {
   routes.push(route);

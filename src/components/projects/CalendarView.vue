@@ -1,8 +1,8 @@
 <script setup>
-import JSONData from '../data/calendar.json';
+import OtherPageView from '@/views/OtherPageView.vue';
 import { ref, computed, watch, onMounted } from 'vue';
-import Calendar from '../components/CalendarCmp.vue'
-import LocateButton from '../components/CalendarLocate.vue'
+import Calendar from '../CalendarCmp.vue'
+import LocateButton from '../CalendarLocate.vue'
 
 const ip = 'localhost';
 const date = ref(new Date());
@@ -11,15 +11,15 @@ let dataStore = ref(new Map());
 
 onMounted(() => {
   // .json() 将 JSON 字符串转换为 JS 对象
-  // fetch(`http://${ip}:3000/get-data`).then(response => response.json()) // json
-  // .then(data => {
-  //   dataStore.value = new Map(Object.entries(data));
-  // }).then(() => {
+  fetch(`http://${ip}:3000/get-data`).then(response => response.json()) // json
+  .then(data => {
+    dataStore.value = new Map(Object.entries(data));
+  }).then(() => {
     
-  // })
-  // .catch(error => console.log('Error fetching data:', error));
+  })
+  .catch(error => console.log('Error fetching data:', error));
 
-  dataStore.value = new Map(Object.entries(JSONData));
+  // dataStore.value = new Map(Object.entries(JSONData));
 })
 // Fri Aug 23 2024 13:55:58 GMT+0800 (China Standard Time)
 
@@ -71,6 +71,7 @@ watch(react, () => {
 });
 
 function reset() {
+  if (react.value === 0) return;
   react.value = 0;
   setTimeout(() => {
     date.value = new Date();
@@ -166,31 +167,38 @@ function updateData(key, value) {
 </script>
 
 <template>
-  <div class="body">
-    <div class="control">
-      <LocateButton @locate="reset" />
-    </div>
-    <Calendar
-    :monthNames="monthNames"
-    :month="month"
-    :year="year"
-    :prevMonth="prevMonth"
-    :nextMonth="nextMonth"
-    :weekDays="weekDays"
-    :daysInMonth="daysInMonth"
-    :addIndex="addIndex"
-    :minusIndex="minusIndex"
-    :getBackgroundColor="getBackGroundColor"
-    :getFontColor="getFontColor"
-    :getDateKey="getDateKey"
-    :dataStore="dataStore"
-     />
-  </div>
+  <OtherPageView>
+    <template #project>
+      <div class="body">
+        <div class="control">
+          <LocateButton @locate="reset" />
+        </div>
+        <Calendar
+        :monthNames="monthNames"
+        :month="month"
+        :year="year"
+        :prevMonth="prevMonth"
+        :nextMonth="nextMonth"
+        :weekDays="weekDays"
+        :daysInMonth="daysInMonth"
+        :addIndex="addIndex"
+        :minusIndex="minusIndex"
+        :getBackgroundColor="getBackGroundColor"
+        :getFontColor="getFontColor"
+        :getDateKey="getDateKey"
+        :dataStore="dataStore"
+        />
+      </div>
+    </template>
+  </OtherPageView>
+  <!-- <div class="body">
+  </div> -->
 </template>
 <style scoped>
 .body {
   background-color: #6d8696;
   min-height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;

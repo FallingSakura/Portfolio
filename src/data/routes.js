@@ -3,6 +3,10 @@ export default [{
     name: 'BlurryLoading',
     component: () => import('../components/projects/BlurryLoading.vue'),
   },{
+    path: '/projects/calendarview',
+    name: 'CalendarView',
+    component: () => import('../components/projects/CalendarView.vue'),
+  },{
     path: '/projects/expandingcards',
     name: 'ExpandingCards',
     component: () => import('../components/projects/ExpandingCards.vue'),
@@ -46,10 +50,6 @@ export default [{
     path: '/projects/splitlanging',
     name: 'SplitLanging',
     component: () => import('../components/projects/SplitLanging.vue'),
-  },{
-    path: '/projects/templatecard',
-    name: 'TemplateCard',
-    component: () => import('../components/projects/TemplateCard.vue'),
   },{
     path: '/projects/timeline',
     name: 'TimeLine',

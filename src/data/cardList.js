@@ -2,6 +2,9 @@ export default [{
     title: 'Blurry Loading',
     src: '/projects/blurryloading'
   },{
+    title: 'Calendar View',
+    src: '/projects/calendarview'
+  },{
     title: 'Expanding Cards',
     src: '/projects/expandingcards'
   },{
@@ -34,9 +37,6 @@ export default [{
   },{
     title: 'Split Langing',
     src: '/projects/splitlanging'
-  },{
-    title: 'Template Card',
-    src: '/projects/templatecard'
   },{
     title: 'Time Line',
     src: '/projects/timeline'

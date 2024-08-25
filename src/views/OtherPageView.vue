@@ -25,7 +25,6 @@ const props = defineProps({
 <style scoped>
 .o-container {
   min-height: 100vh;
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   z-index: -1;
