@@ -2,12 +2,27 @@
 import OtherPageView from '@/views/OtherPageView.vue';
 import { ref, computed, onMounted } from 'vue';
 import Calendar from '../CalendarCmp.vue'
-import LocateButton from '../CalendarLocate.vue'
+import ControlButton from '../CalendarControlButton.vue'
 
 const ip = 'localhost';
 const date = ref(new Date());
 let dataStore = ref(new Map());
+let status = ref(0);
 
+const buttons = {
+  0: {
+    icon: "fa-solid fa-location-crosshairs",
+    fn: reset
+  },
+  1: {
+    icon: computed(() => {
+      return status.value === 0 ? "fa-solid fa-toggle-off" : "fa-solid fa-toggle-on";
+    }),
+    fn: () => {
+      status.value = status.value === 0 ? 1 : 0;
+    }
+  },
+};
 onMounted(() => {
   // .json() 将 JSON 字符串转换为 JS 对象
   fetch(`http://${ip}:3000/get-data`).then(response => response.json()) // json
@@ -55,6 +70,15 @@ const daysInMonth = computed(() => {
     return days;
 });
 
+let half = computed(() => {
+  if ((year.value % 4 === 0 && year.value % 100 !== 0) || (year.value % 400 === 0)) return 182;
+  else return 181;
+});
+
+// watch(half, () => {
+//   console.log(half.value);
+// })
+
 function reset() {
   date.value = new Date();
 }
@@ -80,7 +104,24 @@ function nextMonth() {
   date.value.setMonth(date.value.getMonth() + 1);
   date.value = new Date(date.value);
 }
+function prevYear() {
+  date.value.setFullYear(date.value.getFullYear() - 1);
+  date.value = new Date(date.value);
+}
+function nextYear() {
+  date.value.setFullYear(date.value.getFullYear() + 1);
+  date.value = new Date(date.value);
+}
+function beyond(dateEl) {
+  const today = new Date();
+  if (dateEl > today) return false;
+  return true;
+}
 function addIndex(index, isLastMonth = false) {
+  if (!beyond(daysInMonth.value[index].date)) {
+    alert('这里的区域，以后再来探索吧！')
+    return;
+  }
   if (isLastMonth) return;
   const timeIndex = getDateKey(index);
   if (dataStore.value.has(timeIndex)) {
@@ -89,13 +130,17 @@ function addIndex(index, isLastMonth = false) {
     if (dataStore.value.get(timeIndex) === 0) {
       dataStore.value.delete(timeIndex);
       updateData(timeIndex, null);
-      return
+      return;
     }
   }
   else dataStore.value.set(timeIndex, 1);
   updateData(timeIndex, dataStore.value.get(timeIndex));
 }
 function minusIndex(index, isLastMonth = false) {
+  if (!beyond(daysInMonth.value[index].date)) {
+    alert('这里的区域，以后再来探索吧！')
+    return;
+  }
   if (isLastMonth) return;
   const timeIndex = getDateKey(index);
   if (dataStore.value.has(timeIndex)) {
@@ -104,7 +149,7 @@ function minusIndex(index, isLastMonth = false) {
     if (dataStore.value.get(timeIndex) === 0) {
       dataStore.value.delete(timeIndex);
       updateData(timeIndex, null);
-      return
+      return;
     }
   }
   else dataStore.value.set(timeIndex, -1);
@@ -112,7 +157,7 @@ function minusIndex(index, isLastMonth = false) {
 }
 function getBackGroundColor(index) {
   const timeIndex = getDateKey(index);
-  if(!dataStore.value.has(timeIndex)) return;
+  if(!dataStore.value.has(timeIndex)) return `${timeIndex}`;
   const color = ref('');
   switch (dataStore.value.get(timeIndex)) {
     case 1: color.value = '#40E0D0 !important'; break;
@@ -150,7 +195,7 @@ function updateData(key, value) {
     <template #project>
       <div class="body">
         <div class="control">
-          <LocateButton @locate="reset" />
+          <ControlButton class="control-button" v-for="(button, index) in buttons" :key="index" :icon="((typeof button.icon) === `string`) ? button.icon : button.icon.value" @click="button.fn" />
         </div>
         <Calendar
         :monthNames="monthNames"
@@ -158,6 +203,8 @@ function updateData(key, value) {
         :year="year"
         :prevMonth="prevMonth"
         :nextMonth="nextMonth"
+        :prevYear="prevYear"
+        :nextYear="nextYear"
         :weekDays="weekDays"
         :daysInMonth="daysInMonth"
         :addIndex="addIndex"
@@ -166,6 +213,8 @@ function updateData(key, value) {
         :getFontColor="getFontColor"
         :getDateKey="getDateKey"
         :dataStore="dataStore"
+        :status="status"
+        :half="half"
         />
       </div>
     </template>
@@ -178,7 +227,7 @@ function updateData(key, value) {
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 }
 .control {
@@ -190,6 +239,24 @@ function updateData(key, value) {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 20px;
+  padding: 0 30px;
+  margin-top: 10vh;
+}
+.control-button {
+  margin-right: 20px;
+}
+.control-button i {
+  transition: all 1s ease;
+}
+
+@media (max-width: 1100px) {
+  .control {
+    width: 300px;
+  }
+}
+@media (max-width: 600px) {
+  .control {
+    transform: scale(0.9);
+  }
 }
 </style>

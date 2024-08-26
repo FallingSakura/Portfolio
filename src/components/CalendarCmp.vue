@@ -1,32 +1,64 @@
 <script setup>
+import { computed } from 'vue';
 const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMonth',
   'weekDays', 'daysInMonth', 'addIndex', 'minusIndex', 'getBackgroundColor', 'getFontColor', 'getDateKey',
-  'dataStore'
+  'dataStore', 'status', 'prevYear', 'nextYear', 'half'
 ]);
+const firstDay = computed(() => new Date(props.year, 0, 1));
+function prev() {
+  if (props.status === 0) props.prevMonth();
+  else props.prevYear();
+}
+function next() {
+  if (props.status === 0) props.nextMonth();
+  else props.nextYear();
+}
+function initHeatmap(maxnum, initnum=0) {
+  let heatmap = [];
+  for (let i = 0, index = initnum; i < 30; i++) {
+    const temp = [];
+    for (let j = 0; j < 7; j++) {
+      const currentDay = new Date(firstDay.value);
+      currentDay.setDate(firstDay.value.getDate() + index);
+      temp.push({ date: currentDay, col: j + 1, row: i + 1 })
+      index++;
+      if (index === maxnum) break;
+    }
+    heatmap.push(temp);
+    if (index === maxnum) break;
+  }
+  return heatmap;
+}
+
+let heatmap1 = computed(() => initHeatmap(props.half));
+let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 </script>
 
 <template>
   <div class="calendar">
     <div class="calendar-header">
       <transition name="fade" mode="out-in">
-        <div class="date" :key="`${props.year}${props.month}`">
-          <h2 class="month">{{ props.monthNames[month] }}</h2>
-          <h2 class="year">{{ year }}</h2>
+        <div v-if="props.status === 0" class="date" :key="`${props.year}${props.month}`">
+          <h2 class="big">{{ props.monthNames[month] }}</h2>
+          <h2 class="small">{{ year }}</h2>
         </div>
+        <div class="year-only" v-else-if="props.status === 1" :key="props.year"><h2 class="big">{{ props.year }}</h2></div>
       </transition>
-      <div class="button" @click="props.prevMonth">
+      <div class="button" @click="prev">
         <i class="fa-solid fa-chevron-left"></i>
       </div>
-      <div class="button" @click="props.nextMonth">
+      <div class="button" @click="next">
         <i class="fa-solid fa-chevron-right"></i>
       </div>
     </div>
     <div class="calendar-body">
-      <div class="day-names">
-        <div v-for="day in props.weekDays" :key="day">{{ day }}</div>
-      </div>
       <transition name="blur" mode="out-in">
-        <div class="days" :key="`${props.year}${props.month}`">
+        <div v-show="status===0" class="day-names">
+          <div v-for="day in props.weekDays" :key="day">{{ day }}</div>
+        </div>
+      </transition>
+      <transition name="blur" mode="out-in">
+        <div v-if="status===0" class="days" :key="`${props.year}${props.month}`">
           <div
             v-for="(day, index) in props.daysInMonth"
             :key="day.date"
@@ -38,6 +70,26 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
             {{ day.date.getDate() }}
             <small>{{ props.dataStore.get(props.getDateKey(index)) }}</small>
           </div>
+        </div>
+        <div v-else-if="status===1" :key="props.year" class="heatmap-container">
+          <table class="heatmap">
+            <tr v-for="(row, index) in heatmap1" :key="index">
+              <td v-for="(item, index) in row" :key="index" class="block" 
+              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
+                {{ item.date.getDate() }}
+              </td>
+            
+            </tr>
+          </table>
+          <div class="line"></div>
+          <table class="heatmap">
+            <tr v-for="(row, index) in heatmap2" :key="index">
+              <td v-for="(item, index) in row" :key="index" class="block"
+              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
+                {{ item.date.getDate() }}
+              </td>
+            </tr>
+          </table>
         </div>
       </transition>
     </div>
@@ -51,6 +103,7 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
   border-radius: 15px;
   overflow: hidden;
   font-family: 'PT Sans';
+  transition: all 0.3s ease;
 }
 .calendar-header {
   display: flex;
@@ -60,17 +113,18 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
   background-color: #ececec;
 }
 
-.calendar-header .year {
+.calendar-header .small {
   font-size: 1.2rem;
   margin-left: 15px;
   letter-spacing: 2px;
 }
-.calendar-header .month {
+.calendar-header .big {
   font-size: 2.4rem;
   letter-spacing: 2px;
   margin-left: 25px;
 }
-.calendar .date {
+.calendar .date,
+.calendar .year-only {
   flex: 1;
   display: flex;
   align-items: baseline;
@@ -102,7 +156,7 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 .day-names div {
   text-align: center;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   letter-spacing: 3px;
   user-select: none;
 }
@@ -144,7 +198,7 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 }
 .blur-enter-active,
 .blur-leave-active {
-  transition: filter 0.3s ease;
+  transition: filter 0.2s ease;
 }
 .blur-enter-from,
 .blur-leave-to {
@@ -157,7 +211,7 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
@@ -180,10 +234,10 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
   .day-names div {
     font-size: 1.2rem;
   }
-  .calendar-header .year {
+  .calendar-header .small {
     font-size: 1rem;
   }
-  .calendar-header .month {
+  .calendar-header .big {
     font-size: 2rem;
   }
   .calendar-body .days {
@@ -216,19 +270,47 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
   .day-names div {
     font-size: 1rem;
   }
-  .calendar-header .month {
-    font-size: 1.6rem;
+  .calendar-header .big {
+    font-size: 2rem;
+    margin-left: 15px;
   }
-  .calendar-header .year {
-    font-size: 0.8rem;
+  .calendar-header .small {
+    font-size: 1rem;
   }
   .calendar-body .days {
     gap: 10px;
   }
   .calendar-header .button {
-    width: 30px;
-    height: 30px;
+    /* width: 35px;
+    height: 35px; */
     font-size: 1.4rem;
   }
+}
+.block {
+  width: 22px;
+  height: 22px;
+  background-color: gray;
+  border-radius: 3px;
+  writing-mode: horizontal-tb;
+  text-align: center;
+  line-height: 22px;
+}
+.heatmap {
+  border-spacing: 3px;
+  writing-mode:vertical-lr;
+}
+.heatmap-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(107, 107, 107, 0.55);
+  margin: 45px 0;
+  /* box-shadow: 0 0 5px black; */
 }
 </style>

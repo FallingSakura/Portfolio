@@ -1,13 +1,10 @@
 <script setup>
-const emits = defineEmits(['locate']);
-function reset() {
-  emits('locate');
-}
+const props = defineProps(['icon'])
 
 </script>
 <template>
-  <div @click="reset" class="button">
-    <i class="fa-solid fa-location-crosshairs"></i>
+  <div class="button">
+    <i :class="props.icon"></i>
   </div>
 </template>
 
