@@ -1,12 +1,11 @@
 <script setup>
 import OtherPageView from '@/views/OtherPageView.vue';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Calendar from '../CalendarCmp.vue'
 import LocateButton from '../CalendarLocate.vue'
 
 const ip = 'localhost';
 const date = ref(new Date());
-let react = ref(0);
 let dataStore = ref(new Map());
 
 onMounted(() => {
@@ -56,26 +55,8 @@ const daysInMonth = computed(() => {
     return days;
 });
 
-watch(react, () => {
-  const body = document.querySelector('.days');
-  const title = document.querySelector('.calendar-header .date');
-  body.style.transition = 'filter 0.3s ease';
-  title.style.transition = 'opacity 0.3s linear';
-  body.style.filter = 'blur(30px)';
-  title.style.opacity = '0';
-  setTimeout(() => {
-    body.style.filter = 'blur(0px)';
-    title.style.opacity = 1;
-    date.value = new Date(date.value);
-  }, 400);
-});
-
 function reset() {
-  if (react.value === 0) return;
-  react.value = 0;
-  setTimeout(() => {
-    date.value = new Date();
-  }, 500);
+  date.value = new Date();
 }
 function isToday(date) {
   const today = new Date();
@@ -92,14 +73,12 @@ function getDateKey(dateEl) {
 
 function prevMonth() {
   date.value.setMonth(date.value.getMonth() - 1);
-  // date.value = new Date(date.value); // 触发 reactivity
-  react.value--;
+  date.value = new Date(date.value);
 }
 
 function nextMonth() {
   date.value.setMonth(date.value.getMonth() + 1);
-  // date.value = new Date(date.value); // 触发 reactivity(watch)
-  react.value++;
+  date.value = new Date(date.value);
 }
 function addIndex(index, isLastMonth = false) {
   if (isLastMonth) return;
@@ -191,8 +170,6 @@ function updateData(key, value) {
       </div>
     </template>
   </OtherPageView>
-  <!-- <div class="body">
-  </div> -->
 </template>
 <style scoped>
 .body {

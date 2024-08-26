@@ -8,10 +8,12 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 <template>
   <div class="calendar">
     <div class="calendar-header">
-      <div class="date">
-        <h2 class="month">{{ props.monthNames[month] }}</h2>
-        <h2 class="year">{{ year }}</h2>
-      </div>
+      <transition name="fade" mode="out-in">
+        <div class="date" :key="`${props.year}${props.month}`">
+          <h2 class="month">{{ props.monthNames[month] }}</h2>
+          <h2 class="year">{{ year }}</h2>
+        </div>
+      </transition>
       <div class="button" @click="props.prevMonth">
         <i class="fa-solid fa-chevron-left"></i>
       </div>
@@ -23,19 +25,21 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
       <div class="day-names">
         <div v-for="day in props.weekDays" :key="day">{{ day }}</div>
       </div>
-      <div class="days">
-        <div
-          v-for="(day, index) in props.daysInMonth"
-          :key="day.date"
-          :class="{'current-day': day.isCurrentDay, 'last-month': day.isLastMonth}"
-          @click="props.addIndex(index, day.isLastMonth)"
-          @contextmenu.prevent="props.minusIndex(index, day.isLastMonth)"
-          :style="{ backgroundColor: props.getBackgroundColor(index), color: props.getFontColor(index) }"
-        >
-          {{ day.date.getDate() }}
-          <small>{{ props.dataStore.get(props.getDateKey(index)) }}</small>
+      <transition name="blur" mode="out-in">
+        <div class="days" :key="`${props.year}${props.month}`">
+          <div
+            v-for="(day, index) in props.daysInMonth"
+            :key="day.date"
+            :class="{'current-day': day.isCurrentDay, 'last-month': day.isLastMonth}"
+            @click="props.addIndex(index, day.isLastMonth)"
+            @contextmenu.prevent="props.minusIndex(index, day.isLastMonth)"
+            :style="{ backgroundColor: props.getBackgroundColor(index), color: props.getFontColor(index) }"
+          >
+            {{ day.date.getDate() }}
+            <small>{{ props.dataStore.get(props.getDateKey(index)) }}</small>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -44,7 +48,6 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 @import url('https://fonts.font.im/css?family=PT+Sans');
 .calendar {
   width: 800px;
-  /* border: 1px solid #ddd; */
   border-radius: 15px;
   overflow: hidden;
   font-family: 'PT Sans';
@@ -55,7 +58,6 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
   align-items: center;
   padding: 20px 15px;
   background-color: #ececec;
-  /* border-bottom: 1px solid #ddd; */
 }
 
 .calendar-header .year {
@@ -88,7 +90,6 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 .calendar-body {
   padding: 30px 50px 50px;
   background-color: #f7f7f7;
-  /* filter: blur(30px); */
 }
 .day-names, .days {
   display: grid;
@@ -132,13 +133,37 @@ const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMont
 .current-day {
   background-color: #007bff !important;
   box-shadow: 0 0 8px 1px rgb(187, 187, 187);
-  /* border-radius: 999px !important; */
   color: #fff;
 }
 .last-month {
-  /* color: white; */
   opacity: 0;
 }
+.blur-enter-to,
+.blur-leave-from {
+  filter: blur(0px);
+}
+.blur-enter-active,
+.blur-leave-active {
+  transition: filter 0.3s ease;
+}
+.blur-enter-from,
+.blur-leave-to {
+  filter: blur(30px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 @media (max-width: 1100px) {
   .calendar {
     width: 600px;
