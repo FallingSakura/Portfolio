@@ -104,6 +104,10 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 
 <style scoped>
 @import url('https://fonts.font.im/css?family=PT+Sans');
+* {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 .calendar {
   width: 800px;
   border-radius: 15px;
@@ -163,7 +167,6 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   font-weight: bold;
   font-size: 1.5rem;
   letter-spacing: 3px;
-  user-select: none;
 }
 .days div {
   display: flex;
@@ -179,10 +182,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   /* border: 1px solid #dddddd96; */
   font-size: 2rem;
   font-weight: 700;
-  user-select: none;
   position: relative;
   transition: background-color 0.3s ease;
-  -webkit-touch-callout: none;
 }
 .days small {
   position: absolute;
@@ -302,7 +303,6 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   text-align: center;
   line-height: 22px;
   cursor: pointer;
-  user-select: none;
   color: #252525;
   font-size: 0.8rem;
 }
@@ -344,7 +344,6 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 }
 .title {
   cursor:default;
-  user-select: none;
   letter-spacing: 2px;
 }
 .heatmap-title {
