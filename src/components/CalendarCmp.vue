@@ -164,6 +164,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   font-size: 1.5rem;
   letter-spacing: 3px;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 .days div {
   display: flex;
