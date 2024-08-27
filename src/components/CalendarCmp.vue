@@ -39,10 +39,10 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
     <div class="calendar-header">
       <transition name="fade" mode="out-in">
         <div v-if="props.status === 0" class="date" :key="`${props.year}${props.month}`">
-          <h2 class="big">{{ props.monthNames[month] }}</h2>
-          <h2 class="small">{{ year }}</h2>
+          <h2 class="big title">{{ props.monthNames[month] }}</h2>
+          <h2 class="small title">{{ year }}</h2>
         </div>
-        <div class="year-only" v-else-if="props.status === 1" :key="props.year"><h2 class="big">{{ props.year }}</h2></div>
+        <div class="year-only" v-else-if="props.status === 1" :key="props.year"><h2 class="big title">{{ props.year }}</h2></div>
       </transition>
       <div class="button" @click="prev">
         <i class="fa-solid fa-chevron-left"></i>
@@ -72,21 +72,23 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
           </div>
         </div>
         <div v-else-if="status===1" :key="props.year" class="heatmap-container">
+          <h2 class="heatmap-title title">Jan ~ Jun</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap1" :key="index">
               <td v-for="(item, index) in row" :key="index" class="block" 
               :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
-                {{ item.date.getDate() }}
+                <!-- {{ item.date.getDate() }} -->
               </td>
             
             </tr>
           </table>
           <div class="line"></div>
+          <h2 class="heatmap-title title">Jul ~ Dec</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap2" :key="index">
               <td v-for="(item, index) in row" :key="index" class="block"
               :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
-                {{ item.date.getDate() }}
+                <!-- {{ item.date.getDate() }} -->
               </td>
             </tr>
           </table>
@@ -116,11 +118,9 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 .calendar-header .small {
   font-size: 1.2rem;
   margin-left: 15px;
-  letter-spacing: 2px;
 }
 .calendar-header .big {
   font-size: 2.4rem;
-  letter-spacing: 2px;
   margin-left: 25px;
 }
 .calendar .date,
@@ -143,7 +143,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 }
 .calendar-body {
   padding: 30px 50px 50px;
-  background-color: #f7f7f7;
+  background-color: #f7f7f7c0;
+  backdrop-filter: blur(50px);
 }
 .day-names, .days {
   display: grid;
@@ -169,8 +170,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   padding: 5px;
   border-radius: 12px;
   cursor: pointer;
-  background-color: #fff;
-  border: 1px solid #dddddd96;
+  background-color: #ffffffa4;
+  /* border: 1px solid #dddddd96; */
   font-size: 2rem;
   font-weight: 700;
   user-select: none;
@@ -289,11 +290,15 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 .block {
   width: 22px;
   height: 22px;
-  background-color: gray;
+  background-color: rgba(162, 162, 162, 0.285);
   border-radius: 3px;
   writing-mode: horizontal-tb;
   text-align: center;
   line-height: 22px;
+  cursor: pointer;
+  user-select: none;
+  color: #252525;
+  font-size: 0.8rem;
 }
 .heatmap {
   border-spacing: 3px;
@@ -312,5 +317,14 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   background-color: rgba(107, 107, 107, 0.55);
   margin: 45px 0;
   /* box-shadow: 0 0 5px black; */
+}
+.title {
+  cursor:default;
+  user-select: none;
+  letter-spacing: 2px;
+}
+.heatmap-title {
+  width: 100%;
+  margin-bottom: 25px;
 }
 </style>

@@ -223,6 +223,7 @@ function updateData(key, value) {
 <style scoped>
 .body {
   background-color: #6d8696;
+  background-image: linear-gradient(45deg, #71bdbc 4%, #6d8696 40%, #cc9898 80%, #ee9ca7 100%);
   min-height: 100vh;
   width: 100vw;
   display: flex;
