@@ -75,10 +75,6 @@ let half = computed(() => {
   else return 181;
 });
 
-// watch(half, () => {
-//   console.log(half.value);
-// })
-
 function reset() {
   date.value = new Date();
 }
@@ -157,16 +153,16 @@ function minusIndex(index, isLastMonth = false) {
 }
 function getBackGroundColor(index) {
   const timeIndex = getDateKey(index);
-  if(!dataStore.value.has(timeIndex)) return `${timeIndex}`;
+  if(!dataStore.value.has(timeIndex)) return;
   const color = ref('');
   switch (dataStore.value.get(timeIndex)) {
-    case 1: color.value = '#40E0D0 !important'; break;
-    case 2: color.value = '#FF8C00 !important'; break;
-    case 3: color.value = '#FF0080 !important'; break;
-    case 0: color.value = ''; break;
-    case -1: color.value = '#4B79A1 !important'; break;
-    case -2: color.value = '#036 !important'; break;
-    case -3: color.value = '#222 !important'; break;
+    case 1: color.value = '#40E0D0'; break;
+    case 2: color.value = '#FF8C00'; break;
+    case 3: color.value = '#FF0080'; break;
+    case 0: color.value = '#ffffffa4'; break;
+    case -1: color.value = '#4B79A1'; break;
+    case -2: color.value = '#036'; break;
+    case -3: color.value = '#222'; break;
   }
   return color.value;
 }
@@ -223,7 +219,7 @@ function updateData(key, value) {
 <style scoped>
 .body {
   background-color: #6d8696;
-  background-image: linear-gradient(45deg, #71bdbc 4%, #6d8696 40%, #cc9898 80%, #ee9ca7 100%);
+  background-image: linear-gradient(135deg, #71bdbc, #6d8696);
   min-height: 100vh;
   width: 100vw;
   display: flex;

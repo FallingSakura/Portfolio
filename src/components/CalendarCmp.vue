@@ -1,10 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMonth',
   'weekDays', 'daysInMonth', 'addIndex', 'minusIndex', 'getBackgroundColor', 'getFontColor', 'getDateKey',
   'dataStore', 'status', 'prevYear', 'nextYear', 'half'
 ]);
 const firstDay = computed(() => new Date(props.year, 0, 1));
+const showInfo = ref(new Map());
 function prev() {
   if (props.status === 0) props.prevMonth();
   else props.prevYear();
@@ -15,12 +16,12 @@ function next() {
 }
 function initHeatmap(maxnum, initnum=0) {
   let heatmap = [];
-  for (let i = 0, index = initnum; i < 30; i++) {
+  for (let i = 0, index = initnum; i < 50; i++) {
     const temp = [];
     for (let j = 0; j < 7; j++) {
       const currentDay = new Date(firstDay.value);
       currentDay.setDate(firstDay.value.getDate() + index);
-      temp.push({ date: currentDay, col: j + 1, row: i + 1 })
+      temp.push({ date: currentDay, col: j + 1, row: i + 1, key: props.getDateKey(currentDay) })
       index++;
       if (index === maxnum) break;
     }
@@ -75,20 +76,23 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
           <h2 class="heatmap-title title">Jan ~ Jun</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap1" :key="index">
-              <td v-for="(item, index) in row" :key="index" class="block" 
-              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
-                <!-- {{ item.date.getDate() }} -->
+              <td v-for="(item, index) in row" :key="index" class="block horizon" 
+              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }"
+              @mouseover="showInfo.set(item.key, true)"
+              @mouseleave="showInfo.set(item.key, false)">
+                <div class="info" v-show="showInfo.get(item.key)">{{ `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}` }}</div>
               </td>
-            
             </tr>
           </table>
           <div class="line"></div>
           <h2 class="heatmap-title title">Jul ~ Dec</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap2" :key="index">
-              <td v-for="(item, index) in row" :key="index" class="block"
-              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }">
-                <!-- {{ item.date.getDate() }} -->
+              <td v-for="(item, index) in row" :key="index" class="block horizon"
+              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }"
+              @mouseover="showInfo.set(item.key, true)"
+              @mouseleave="showInfo.set(item.key, false)">
+                <div class="info" v-show="showInfo.get(item.key)">{{ `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}` }}</div>
               </td>
             </tr>
           </table>
@@ -171,6 +175,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   border-radius: 12px;
   cursor: pointer;
   background-color: #ffffffa4;
+  color: #252525;
   /* border: 1px solid #dddddd96; */
   font-size: 2rem;
   font-weight: 700;
@@ -188,7 +193,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 .current-day {
   background-color: #007bff !important;
   box-shadow: 0 0 8px 1px rgb(187, 187, 187);
-  color: #fff;
+  color: #fff !important;
 }
 .last-month {
   opacity: 0;
@@ -288,17 +293,34 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   }
 }
 .block {
+  position: relative;
   width: 22px;
   height: 22px;
   background-color: rgba(162, 162, 162, 0.285);
   border-radius: 3px;
-  writing-mode: horizontal-tb;
   text-align: center;
   line-height: 22px;
   cursor: pointer;
   user-select: none;
   color: #252525;
   font-size: 0.8rem;
+}
+.info {
+  position: absolute;
+  padding: 5px 10px;
+  background-color: #0000008f;
+  color: #fff;
+  border-radius: 8px;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1rem;
+  z-index: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.horizon {
+  writing-mode: horizontal-tb;
 }
 .heatmap {
   border-spacing: 3px;
@@ -313,8 +335,9 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 }
 .line {
   width: 100%;
-  height: 2px;
-  background-color: rgba(107, 107, 107, 0.55);
+  height: 1px;
+  border-radius: 1px;
+  background-color: rgba(107, 107, 107, 0.3);
   margin: 45px 0;
   /* box-shadow: 0 0 5px black; */
 }
