@@ -226,6 +226,63 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   opacity: 0;
 }
 
+.block {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  background-color: rgba(162, 162, 162, 0.285);
+  border-radius: 3px;
+  text-align: center;
+  line-height: 22px;
+  cursor: pointer;
+  color: #252525;
+  font-size: 0.8rem;
+}
+.info {
+  position: absolute;
+  padding: 5px 10px;
+  background-color: #0000008f;
+  color: #fff;
+  border-radius: 8px;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 1rem;
+  z-index: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.horizon {
+  writing-mode: horizontal-tb;
+}
+.heatmap {
+  border-spacing: 3px;
+  writing-mode:vertical-lr;
+}
+.heatmap-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.line {
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  background-color: rgba(107, 107, 107, 0.3);
+  margin: 45px 0;
+  /* box-shadow: 0 0 5px black; */
+}
+.title {
+  cursor:default;
+  letter-spacing: 2px;
+}
+.heatmap-title {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
 @media (max-width: 1100px) {
   .calendar {
     width: 600px;
@@ -309,61 +366,5 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   .line {
     width: 95% !important;
   }
-}
-.block {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  background-color: rgba(162, 162, 162, 0.285);
-  border-radius: 3px;
-  text-align: center;
-  line-height: 22px;
-  cursor: pointer;
-  color: #252525;
-  font-size: 0.8rem;
-}
-.info {
-  position: absolute;
-  padding: 5px 10px;
-  background-color: #0000008f;
-  color: #fff;
-  border-radius: 8px;
-  top: -100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  font-size: 1rem;
-  z-index: 1;
-  pointer-events: none;
-  white-space: nowrap;
-}
-.horizon {
-  writing-mode: horizontal-tb;
-}
-.heatmap {
-  border-spacing: 3px;
-  writing-mode:vertical-lr;
-}
-.heatmap-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-.line {
-  width: 100%;
-  height: 1px;
-  border-radius: 1px;
-  background-color: rgba(107, 107, 107, 0.3);
-  margin: 45px 0;
-  /* box-shadow: 0 0 5px black; */
-}
-.title {
-  cursor:default;
-  letter-spacing: 2px;
-}
-.heatmap-title {
-  width: 100%;
-  margin-bottom: 25px;
 }
 </style>
