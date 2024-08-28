@@ -174,7 +174,6 @@ function getBackGroundColor(index) {
       color.value = '#FF0080'
       break
     case 0:
-      color.value = '#ffffffa4'
       break
     case -1:
       color.value = '#4B79A1'
@@ -185,11 +184,14 @@ function getBackGroundColor(index) {
     case -3:
       color.value = '#222'
       break
+    default:
+      break;
   }
   return color.value
 }
 function getFontColor(index) {
   const timeIndex = getDateKey(index)
+  if (timeIndex === getDateKey(new Date())) return '#fff'
   if (!dataStore.value.has(timeIndex)) return
   const color = ref('')
   if (dataStore.value.get(timeIndex) < 0) color.value = '#fff'

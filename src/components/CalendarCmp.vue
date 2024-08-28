@@ -235,10 +235,10 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half))
   font-size: 0.9rem;
   opacity: 0.6;
 }
-.current-day {
-  background-color: #007bff !important;
+.days .current-day  {
+  background-color: #007bff;
   box-shadow: 0 0 8px 1px rgb(187, 187, 187);
-  color: #fff !important;
+  color: #fff;
 }
 .last-month {
   opacity: 0;
