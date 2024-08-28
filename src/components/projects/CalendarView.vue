@@ -256,6 +256,7 @@ function updateData(key, value) {
   /* justify-content: center; */
   align-items: center;
 }
+
 .control {
   width: 500px;
   height: 70px;
@@ -268,9 +269,11 @@ function updateData(key, value) {
   padding: 0 30px;
   margin-top: 10vh;
 }
+
 .control-button {
   margin-right: 20px;
 }
+
 .control-button i {
   transition: all 1s ease;
 }
@@ -280,6 +283,7 @@ function updateData(key, value) {
     width: 300px;
   }
 }
+
 @media (max-width: 600px) {
   .control {
     transform: scale(0.9);
