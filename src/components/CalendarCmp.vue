@@ -254,6 +254,16 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   .calendar-header .button {
     font-size: 1.4rem;
   }
+  .heatmap {
+    transform: scale(0.8);
+  }
+  .line {
+    margin: 15px 0 !important;
+  }
+  .heatmap-title {
+    margin-left: 30px;
+    margin-bottom: 0 !important;
+  }
 }
 @media (max-width: 600px) {
   .calendar {
@@ -292,6 +302,12 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
     /* width: 35px;
     height: 35px; */
     font-size: 1.4rem;
+  }
+  .heatmap {
+    transform: scale(0.55);
+  }
+  .line {
+    width: 95% !important;
   }
 }
 .block {
