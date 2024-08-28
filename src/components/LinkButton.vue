@@ -2,28 +2,27 @@
 const props = defineProps({
   src: {
     type: String,
-    default: '/',
+    default: '/'
   },
   title: {
     type: String,
-    default: 'Title',
+    default: 'Title'
   },
   description: {
     type: String,
-    default: '',
+    default: ''
   },
   img: {
     type: String,
-    default: '',
+    default: ''
   }
 })
-
 </script>
 <template>
-  <router-link :class="{'link-button': true, 'have-img': props.img}" :to="props.src">
+  <router-link :class="{ 'link-button': true, 'have-img': props.img }" :to="props.src">
     <h2>{{ props.title }}</h2>
     <p v-if="props.description">{{ props.description }}</p>
-    <img :src="props.img" v-if="props.img">
+    <img :src="props.img" v-if="props.img" />
   </router-link>
 </template>
 <style scoped>

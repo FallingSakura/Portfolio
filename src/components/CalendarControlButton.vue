@@ -1,6 +1,5 @@
 <script setup>
 const props = defineProps(['icon'])
-
 </script>
 <template>
   <div class="button">

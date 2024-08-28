@@ -1,38 +1,53 @@
 <script setup>
-import { computed, ref } from 'vue';
-const props = defineProps(['monthNames', 'month', 'year', 'prevMonth', 'nextMonth',
-  'weekDays', 'daysInMonth', 'addIndex', 'minusIndex', 'getBackgroundColor', 'getFontColor', 'getDateKey',
-  'dataStore', 'status', 'prevYear', 'nextYear', 'half'
-]);
-const firstDay = computed(() => new Date(props.year, 0, 1));
-const showInfo = ref(new Map());
+import { computed, ref } from 'vue'
+const props = defineProps([
+  'monthNames',
+  'month',
+  'year',
+  'prevMonth',
+  'nextMonth',
+  'weekDays',
+  'daysInMonth',
+  'addIndex',
+  'minusIndex',
+  'getBackgroundColor',
+  'getFontColor',
+  'getDateKey',
+  'dataStore',
+  'status',
+  'prevYear',
+  'nextYear',
+  'half'
+])
+const firstDay = computed(() => new Date(props.year, 0, 1))
+const showInfo = ref(new Map())
 function prev() {
-  if (props.status === 0) props.prevMonth();
-  else props.prevYear();
+  if (props.status === 0) props.prevMonth()
+  else props.prevYear()
 }
 function next() {
-  if (props.status === 0) props.nextMonth();
-  else props.nextYear();
+  if (props.status === 0) props.nextMonth()
+  else props.nextYear()
 }
-function initHeatmap(maxnum, initnum=0) {
-  let heatmap = [];
+function initHeatmap(maxnum, initnum = 0) {
+  let heatmap = []
   for (let i = 0, index = initnum; i < 50; i++) {
-    const temp = [];
+    const temp = []
     for (let j = 0; j < 7; j++) {
-      const currentDay = new Date(firstDay.value);
-      currentDay.setDate(firstDay.value.getDate() + index);
+      const currentDay = new Date(firstDay.value)
+      currentDay.setDate(firstDay.value.getDate() + index)
       temp.push({ date: currentDay, col: j + 1, row: i + 1, key: props.getDateKey(currentDay) })
-      index++;
-      if (index === maxnum) break;
+      index++
+      if (index === maxnum) break
     }
-    heatmap.push(temp);
-    if (index === maxnum) break;
+    heatmap.push(temp)
+    if (index === maxnum) break
   }
-  return heatmap;
+  return heatmap
 }
 
-let heatmap1 = computed(() => initHeatmap(props.half));
-let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
+let heatmap1 = computed(() => initHeatmap(props.half))
+let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half))
 </script>
 
 <template>
@@ -43,7 +58,9 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
           <h2 class="big title">{{ props.monthNames[month] }}</h2>
           <h2 class="small title">{{ year }}</h2>
         </div>
-        <div class="year-only" v-else-if="props.status === 1" :key="props.year"><h2 class="big title">{{ props.year }}</h2></div>
+        <div class="year-only" v-else-if="props.status === 1" :key="props.year">
+          <h2 class="big title">{{ props.year }}</h2>
+        </div>
       </transition>
       <div class="button" @click="prev">
         <i class="fa-solid fa-chevron-left"></i>
@@ -54,33 +71,47 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
     </div>
     <div class="calendar-body">
       <transition name="blur" mode="out-in">
-        <div v-show="status===0" class="day-names">
+        <div v-show="status === 0" class="day-names">
           <div v-for="day in props.weekDays" :key="day">{{ day }}</div>
         </div>
       </transition>
       <transition name="blur" mode="out-in">
-        <div v-if="status===0" class="days" :key="`${props.year}${props.month}`">
+        <div v-if="status === 0" class="days" :key="`${props.year}${props.month}`">
           <div
             v-for="(day, index) in props.daysInMonth"
             :key="day.date"
-            :class="{'current-day': day.isCurrentDay, 'last-month': day.isLastMonth}"
+            :class="{ 'current-day': day.isCurrentDay, 'last-month': day.isLastMonth }"
             @click="props.addIndex(index, day.isLastMonth)"
             @contextmenu.prevent="props.minusIndex(index, day.isLastMonth)"
-            :style="{ backgroundColor: props.getBackgroundColor(index), color: props.getFontColor(index) }"
+            :style="{
+              backgroundColor: props.getBackgroundColor(index),
+              color: props.getFontColor(index)
+            }"
           >
             {{ day.date.getDate() }}
             <small>{{ props.dataStore.get(props.getDateKey(index)) }}</small>
           </div>
         </div>
-        <div v-else-if="status===1" :key="props.year" class="heatmap-container">
+        <div v-else-if="status === 1" :key="props.year" class="heatmap-container">
           <h2 class="heatmap-title title">Jan ~ Jun</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap1" :key="index">
-              <td v-for="(item, index) in row" :key="index" class="block horizon" 
-              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }"
-              @mouseover="showInfo.set(item.key, true)"
-              @mouseleave="showInfo.set(item.key, false)">
-                <div class="info" v-show="showInfo.get(item.key)">{{ `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}` }}</div>
+              <td
+                v-for="(item, index) in row"
+                :key="index"
+                class="block horizon"
+                :style="{
+                  backgroundColor: props.getBackgroundColor(item.date),
+                  color: props.getFontColor(item.date)
+                }"
+                @mouseover="showInfo.set(item.key, true)"
+                @mouseleave="showInfo.set(item.key, false)"
+              >
+                <div class="info" v-show="showInfo.get(item.key)">
+                  {{
+                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}`
+                  }}
+                </div>
               </td>
             </tr>
           </table>
@@ -88,11 +119,22 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
           <h2 class="heatmap-title title">Jul ~ Dec</h2>
           <table class="heatmap">
             <tr v-for="(row, index) in heatmap2" :key="index">
-              <td v-for="(item, index) in row" :key="index" class="block horizon"
-              :style="{ backgroundColor: props.getBackgroundColor(item.date), color: props.getFontColor(item.date) }"
-              @mouseover="showInfo.set(item.key, true)"
-              @mouseleave="showInfo.set(item.key, false)">
-                <div class="info" v-show="showInfo.get(item.key)">{{ `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}` }}</div>
+              <td
+                v-for="(item, index) in row"
+                :key="index"
+                class="block horizon"
+                :style="{
+                  backgroundColor: props.getBackgroundColor(item.date),
+                  color: props.getFontColor(item.date)
+                }"
+                @mouseover="showInfo.set(item.key, true)"
+                @mouseleave="showInfo.set(item.key, false)"
+              >
+                <div class="info" v-show="showInfo.get(item.key)">
+                  {{
+                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}`
+                  }}
+                </div>
               </td>
             </tr>
           </table>
@@ -154,7 +196,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   background-color: #f7f7f7c0;
   backdrop-filter: blur(50px);
 }
-.day-names, .days {
+.day-names,
+.days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 20px;
@@ -257,7 +300,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
 }
 .heatmap {
   border-spacing: 3px;
-  writing-mode:vertical-lr;
+  writing-mode: vertical-lr;
 }
 .heatmap-container {
   display: flex;
@@ -275,7 +318,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   /* box-shadow: 0 0 5px black; */
 }
 .title {
-  cursor:default;
+  cursor: default;
   letter-spacing: 2px;
 }
 .heatmap-title {
@@ -329,7 +372,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half));
   .calendar-body {
     padding: 15px;
   }
-  .days, .day-names {
+  .days,
+  .day-names {
     gap: 5px !important;
   }
   .days {
