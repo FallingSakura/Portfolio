@@ -32,12 +32,12 @@ const buttons = {
   height: 70px;
   background-color: #ffffff8d;
   border-radius: 1000px;
-  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 30px;
-  margin-top: 10vh;
+  margin-top: 5vh;
+  margin-bottom: 20px;
 }
 
 .control-button {

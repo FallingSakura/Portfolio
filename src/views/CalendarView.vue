@@ -1,8 +1,7 @@
 <script setup>
-import OtherPageView from '@/views/OtherPageView.vue'
 import { ref, computed, onMounted } from 'vue'
-import Calendar from '../CalendarCmp.vue'
-import ControlPanel from '../CalendarControlPanel.vue'
+import Calendar from '../components/Calendar/CalendarCmp.vue'
+import ControlPanel from '../components/Calendar/CalendarControlPanel.vue'
 
 const date = ref(new Date())
 let dataStore = ref(new Map())
@@ -198,32 +197,28 @@ function updateData(key, value) {
 </script>
 
 <template>
-  <OtherPageView>
-    <template #project>
-      <div class="body">
-        <ControlPanel :reset="reset" :status="status" :toggleStatus="toggleStatus" />
-        <Calendar
-          :monthNames="monthNames"
-          :month="month"
-          :year="year"
-          :prevMonth="prevMonth"
-          :nextMonth="nextMonth"
-          :prevYear="prevYear"
-          :nextYear="nextYear"
-          :weekDays="weekDays"
-          :daysInMonth="daysInMonth"
-          :addIndex="addIndex"
-          :minusIndex="minusIndex"
-          :getBackgroundColor="getBackGroundColor"
-          :getFontColor="getFontColor"
-          :getDateKey="getDateKey"
-          :dataStore="dataStore"
-          :status="status"
-          :half="half"
-        />
-      </div>
-    </template>
-  </OtherPageView>
+  <div class="body">
+    <ControlPanel :reset="reset" :status="status" :toggleStatus="toggleStatus" />
+    <Calendar
+      :monthNames="monthNames"
+      :month="month"
+      :year="year"
+      :prevMonth="prevMonth"
+      :nextMonth="nextMonth"
+      :prevYear="prevYear"
+      :nextYear="nextYear"
+      :weekDays="weekDays"
+      :daysInMonth="daysInMonth"
+      :addIndex="addIndex"
+      :minusIndex="minusIndex"
+      :getBackgroundColor="getBackGroundColor"
+      :getFontColor="getFontColor"
+      :getDateKey="getDateKey"
+      :dataStore="dataStore"
+      :status="status"
+      :half="half"
+    />
+  </div>
 </template>
 <style scoped>
 .body {
@@ -242,7 +237,6 @@ function updateData(key, value) {
     width: 300px;
   }
 }
-
 @media (max-width: 600px) {
   .control {
     transform: scale(0.9);

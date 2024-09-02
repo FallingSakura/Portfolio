@@ -3,10 +3,6 @@ export default [{
     name: 'BlurryLoading',
     component: () => import('../components/projects/BlurryLoading.vue'),
   },{
-    path: '/projects/calendarview',
-    name: 'CalendarView',
-    component: () => import('../components/projects/CalendarView.vue'),
-  },{
     path: '/projects/expandingcards',
     name: 'ExpandingCards',
     component: () => import('../components/projects/ExpandingCards.vue'),
