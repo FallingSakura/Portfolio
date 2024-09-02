@@ -2,30 +2,15 @@
 import OtherPageView from '@/views/OtherPageView.vue'
 import { ref, computed, onMounted } from 'vue'
 import Calendar from '../CalendarCmp.vue'
-import ControlButton from '../CalendarControlButton.vue'
+import ControlPanel from '../CalendarControlPanel.vue'
 
-const ip = 'localhost'
 const date = ref(new Date())
 let dataStore = ref(new Map())
 let status = ref(0)
 
-const buttons = {
-  0: {
-    icon: 'fa-solid fa-location-crosshairs',
-    fn: reset
-  },
-  1: {
-    icon: computed(() => {
-      return status.value === 0 ? 'fa-solid fa-toggle-off' : 'fa-solid fa-toggle-on'
-    }),
-    fn: () => {
-      status.value = status.value === 0 ? 1 : 0
-    }
-  }
-}
 onMounted(() => {
   // .json() 将 JSON 字符串转换为 JS 对象
-  fetch(`http://${ip}:3000/get-data`)
+  fetch(`https://calendarapi.fallingsakura.top/get-data`)
     .then((response) => response.json()) // json
     .then((data) => {
       dataStore.value = new Map(Object.entries(data))
@@ -87,6 +72,9 @@ let half = computed(() => {
 
 function reset() {
   date.value = new Date()
+}
+function toggleStatus() {
+  status.value = status.value === 0 ? 1 : 0
 }
 function isToday(date) {
   const today = new Date()
@@ -165,27 +153,27 @@ function getBackGroundColor(index) {
   const color = ref('')
   switch (dataStore.value.get(timeIndex)) {
     case 1:
-      color.value = '#40E0D0'
+      color.value = '#0dbf8c'
       break
     case 2:
-      color.value = '#FF8C00'
+      color.value = '#50ce3d'
       break
     case 3:
-      color.value = '#FF0080'
+      color.value = '#1fe01f'
       break
     case 0:
       break
     case -1:
-      color.value = '#4B79A1'
+      color.value = '#547898'
       break
     case -2:
-      color.value = '#036'
+      color.value = '#34506a'
       break
     case -3:
-      color.value = '#222'
+      color.value = '#1b232a'
       break
     default:
-      break;
+      break
   }
   return color.value
 }
@@ -193,12 +181,10 @@ function getFontColor(index) {
   const timeIndex = getDateKey(index)
   if (timeIndex === getDateKey(new Date())) return '#fff'
   if (!dataStore.value.has(timeIndex)) return
-  const color = ref('')
-  if (dataStore.value.get(timeIndex) < 0) color.value = '#fff'
-  return color.value
+  return '#fff'
 }
 function updateData(key, value) {
-  fetch(`http://${ip}:3000/update-data`, {
+  fetch(`https://calendarapi.fallingsakura.top/update-data`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -215,15 +201,7 @@ function updateData(key, value) {
   <OtherPageView>
     <template #project>
       <div class="body">
-        <div class="control">
-          <ControlButton
-            class="control-button"
-            v-for="(button, index) in buttons"
-            :key="index"
-            :icon="typeof button.icon === `string` ? button.icon : button.icon.value"
-            @click="button.fn"
-          />
-        </div>
+        <ControlPanel :reset="reset" :status="status" :toggleStatus="toggleStatus" />
         <Calendar
           :monthNames="monthNames"
           :month="month"
@@ -257,27 +235,6 @@ function updateData(key, value) {
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-}
-
-.control {
-  width: 500px;
-  height: 70px;
-  background-color: #ffffff8d;
-  border-radius: 1000px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 30px;
-  margin-top: 10vh;
-}
-
-.control-button {
-  margin-right: 20px;
-}
-
-.control-button i {
-  transition: all 1s ease;
 }
 
 @media (max-width: 1100px) {

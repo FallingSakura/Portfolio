@@ -109,7 +109,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half))
               >
                 <div class="info" v-show="showInfo.get(item.key)">
                   {{
-                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}`
+                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]} ` +
+                    (props.dataStore.get(item.key) ?? '')
                   }}
                 </div>
               </td>
@@ -132,7 +133,8 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half))
               >
                 <div class="info" v-show="showInfo.get(item.key)">
                   {{
-                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]}`
+                    `${item.key.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')} ${props.weekDays[item.date.getDay()]} ` +
+                    (props.dataStore.get(item.key) ?? '')
                   }}
                 </div>
               </td>
@@ -235,7 +237,7 @@ let heatmap2 = computed(() => initHeatmap(props.half + 184, props.half))
   font-size: 0.9rem;
   opacity: 0.6;
 }
-.days .current-day  {
+.days .current-day {
   background-color: #007bff;
   box-shadow: 0 0 8px 1px rgb(187, 187, 187);
   color: #fff;
