@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import Calendar from '../components/Calendar/CalendarCmp.vue'
-import ControlPanel from '../components/Calendar/CalendarControlPanel.vue'
+import Calendar from '../../components/Calendar/CalendarCmp.vue'
+import ControlPanel from '../../components/Calendar/CalendarControlPanel.vue'
 
 const date = ref(new Date())
 let dataStore = ref(new Map())

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Routes from '../data/routes.js'
-import CalendarView from '../views/CalendarView.vue'
+import CalendarView from '../views/Calendar/CalendarView.vue'
 
 const routes = [
   {
