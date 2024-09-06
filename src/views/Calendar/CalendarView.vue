@@ -155,7 +155,7 @@ function getBackGroundColor(index) {
       color.value = '#0dbf8c'
       break
     case 2:
-      color.value = '#50ce3d'
+      color.value = '#45b139'
       break
     case 3:
       color.value = '#1fe01f'
